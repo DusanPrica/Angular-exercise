@@ -1,0 +1,63 @@
+<div class="home_container">
+    <button class="logoutBtn" (click)="logout()">
+        <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+        <div class="text">Logout</div>
+    </button>
+  
+    <div class="home_content_wrapper">
+        <h1>Posts</h1>
+  
+        <div class="tags_container">
+            <label for="tagSelect">Tags:</label>
+            <select id="tagSelect" [(ngModel)]="selectedTag">
+                <option value="">All Tags</option>
+                <option *ngFor="let tag of tags" [value]="tag">{{ tag }}</option>
+            </select>
+        </div>  
+    </div>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="3" class="spinner_row">
+          <div class="spinner"></div>
+        </td>
+      </tr>
+  
+      <ng-container *ngIf="!loading">
+        <tr *ngFor="let post of posts" 
+          [style.background-color]="isRed(post) ? '#ffcccc' : ''"
+          style="cursor:pointer;"
+          (click)="openPost(post.id)">
+          <td>{{ post.id }}</td>
+          <td>{{ truncate(post.title, 50) }}</td>
+          <td>{{ truncate(post.body, 50) }}</td>
+      </tr>
+
+      </ng-container>
+    </tbody>
+  </table>
+  
+  
+  <div *ngIf="selectedPost" class="post_detail">
+    <h3>Post Details</h3>
+    <p><strong>ID:</strong> {{ selectedPost.id }}</p>
+    <p><strong>Title:</strong> {{ selectedPost.title }}</p>
+    <p><strong>Body:</strong> {{ selectedPost.body }}</p>
+    <p><strong>Tags:</strong> {{ selectedPost.tags?.join(', ') }}</p>
+  </div>
+  
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
+    <span>Page {{ page + 1 }}</span>
+    <button (click)="nextPage()">Next</button>
+  </div>
+  
