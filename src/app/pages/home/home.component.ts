@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -28,6 +28,10 @@ export class HomeComponent implements OnInit {
   selectedTag: string = '';
   selectedPost: Post | null = null;
 
+  dropdownPostId: number | null = null;
+  dropdownPosition = { x: 0, y: 0 };
+  showPreviewDialog: boolean = false;
+
   constructor(private http: HttpClient, private router: Router) {}
 
   logout() {
@@ -39,11 +43,9 @@ export class HomeComponent implements OnInit {
   }
 
   loadPosts() {
-    
     this.loading = true;
-
     const skip = this.page * this.limit;
-      this.http.get<any>(`https://dummyjson.com/posts/search?limit=${this.limit}&skip=${skip}`)
+    this.http.get<any>(`https://dummyjson.com/posts/search?limit=${this.limit}&skip=${skip}`)
       .subscribe((res: any) => {
         this.posts = res.posts;
         this.loading = false;
@@ -58,7 +60,7 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     this.loadPosts();
   }
-  
+
   prevPage() {
     if (this.page > 0) {
       this.page--;
@@ -78,9 +80,52 @@ export class HomeComponent implements OnInit {
   openPost(postId: number) {
     this.router.navigate(['/posts-row'], { queryParams: { postId } });
   }
-  
 
   truncate(text: string, length: number) {
     return text.length > length ? text.slice(0, length) + '...' : text;
+  }
+
+  showDropdown(event: MouseEvent, postId: number) {
+    event.stopPropagation();
+    if (this.dropdownPostId === postId) {
+      this.dropdownPostId = null;
+    } else {
+      this.dropdownPostId = postId;
+      this.dropdownPosition = { x: event.clientX, y: event.clientY };
+    }
+  }
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.dropdownPostId = null; 
+  }
+
+  editPost(post: Post) {
+    this.router.navigate(['/posts-row'], { queryParams: { postId: post.id, isEditMode: true } });
+  }
+
+  deletePost(post: Post) {
+    this.posts = this.posts.filter(p => p.id !== post.id);
+    console.log('Post deleted locally:', post);
+  }
+
+  previewDialog(post: Post) {
+    this.selectedPost = post;
+    this.showPreviewDialog = true;
+  }
+
+  closeDialog() {
+    this.showPreviewDialog = false;
+    this.selectedPost = null;
+    this.loadPosts();
+  }
+
+  saveDialog() {
+    console.log('Save clicked for post:', this.selectedPost);
+    this.closeDialog();
+  }
+
+  previewPage(post: Post) {
+    console.log('Preview in page', post);
   }
 }

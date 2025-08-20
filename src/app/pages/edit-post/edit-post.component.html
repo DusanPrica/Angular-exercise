@@ -1,0 +1,16 @@
+<div *ngIf="post">
+    <h2>Edit Post {{ post.id }}</h2>
+  
+    <label>Title:</label>
+    <input [(ngModel)]="post.title" />
+  
+    <label>Body:</label>
+    <textarea [(ngModel)]="post.body"></textarea>
+  
+    <button (click)="savePost()">Save</button>
+  </div>
+  
+  <div *ngIf="!post">
+    Loading post...
+  </div>
+  
