@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ToastrService } from 'ngx-toastr'; // samo servis, bez forRoot()
+import { ToastrService } from 'ngx-toastr'; 
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,11 @@ export class LoginComponent {
 
   constructor(private router: Router, private toastr: ToastrService) {}
 
-  login() {
+  login(form: any) {
+    if (form.invalid) {
+      return;
+    }
+
     const user = this.username.trim().toLowerCase();
     const pass = this.password.trim().toLowerCase();
 

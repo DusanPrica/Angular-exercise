@@ -21,6 +21,7 @@
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   width: 100%;
   box-sizing: border-box;
@@ -48,7 +49,37 @@
     font-weight: bold;
 }
 
-.invalid-field {
-    border: 2px solid red;
+.invalid_field {
+    border: 2px solid rgb(255, 158, 158) !important;
     border-radius: 5px;
-  }
+}
+
+@media (max-width: 767px) {
+    .login_container {
+      width: 90%;
+      margin: 20px auto;
+      padding: 10px;
+    }
+  
+    .login_container input[type="text"],
+    .login_container input[type="password"] {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .login_container button {
+      width: 70%;
+      font-size: 14px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .login_container {
+      width: 70%;
+      padding: 15px;
+    }
+  
+    .login_container button {
+      width: 50%;
+    }
+}
