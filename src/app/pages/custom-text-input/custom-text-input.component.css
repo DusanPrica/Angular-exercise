@@ -1,0 +1,22 @@
+.input_container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input.invalid {
+  border-color: red;
+}
+
+.error_message {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}

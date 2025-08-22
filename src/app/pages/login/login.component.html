@@ -2,23 +2,20 @@
     <h2>Login</h2>
   
     <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-      <input type="text"
-             placeholder="Username"
-             name="username"
-             [(ngModel)]="username"
-             required
-             #usernameRef="ngModel"
-             [ngClass]="{'invalid_field': usernameRef.invalid && (usernameRef.touched || loginForm.submitted)}"/>
-  
-      <input type="password"
-             placeholder="Password"
-             name="password"
-             [(ngModel)]="password"
-             required
-             #passwordRef="ngModel"
-             [ngClass]="{'invalid_field': passwordRef.invalid && (passwordRef.touched || loginForm.submitted)}"/>
-  
-      <button type="submit">Login</button>
-    </form>
+       <app-custom-text-input
+         placeholder="Username"
+         [(model)]="username"
+         [required]="true">
+       </app-custom-text-input>
+     
+       <app-custom-text-input
+         placeholder="Password"
+         [(model)]="password"
+         [type]="'password'"
+         [required]="true">
+       </app-custom-text-input>
+     
+       <button type="submit">Login</button>
+     </form>
   </div> 
   

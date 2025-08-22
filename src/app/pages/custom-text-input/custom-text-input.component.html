@@ -1,0 +1,14 @@
+<div class="input_container">
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [ngModel]="model"
+    (ngModelChange)="onInputChange($event)"
+    [required]="required"
+    #inputRef="ngModel"
+    [ngClass]="{'invalid': inputRef.invalid && inputRef.touched}"
+  />
+  <div class="error_message" *ngIf="inputRef.invalid && inputRef.touched">
+    {{ placeholder }} is required
+  </div>
+</div>

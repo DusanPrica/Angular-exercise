@@ -1,8 +1,9 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CurrentUserService } from '../../services/current-user.service';
 
 interface Post {
   id: number;
@@ -28,18 +29,33 @@ export class HomeComponent implements OnInit {
   selectedTag: string = '';
   selectedPost: Post | null = null;
 
+  //@Input() value : string = '';
+
   dropdownPostId: number | null = null;
   dropdownPosition = { x: 0, y: 0 };
   showPreviewDialog: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  currentUser: any;
 
-  logout() {
-    this.router.navigate(['/login']);
-  }
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private currentUserService: CurrentUserService
+  ) {}
 
   ngOnInit() {
     this.loadPosts();
+
+    if (!this.currentUserService.isLoggedIn()) { 
+      this.router.navigate (['/login']);
+    } else {
+      this.currentUser = this.currentUserService.getUser();
+    }
+  }
+
+  logout() {
+    this.currentUserService.logout(); 
+    this.router.navigate(['/login']);
   }
 
   loadPosts() {

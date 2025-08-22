@@ -16,7 +16,11 @@ export class PostsRowComponent implements OnInit {
   post: any = null;
   loading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
