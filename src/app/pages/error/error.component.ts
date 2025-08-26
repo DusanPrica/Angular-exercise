@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-error',
@@ -15,7 +16,8 @@ export class ErrorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -24,8 +26,14 @@ export class ErrorComponent implements OnInit {
         this.message = params['message'];
       }
     });
+
+    const routeDataMessage = this.route.snapshot.data['message'];
+    if (routeDataMessage) {
+      this.message = routeDataMessage;
+    }
   }
 
   goBack() {
+    this.location.back();
   }
 }

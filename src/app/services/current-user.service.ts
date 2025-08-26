@@ -4,22 +4,25 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CurrentUserService {
+  private userKey = 'currentUser';
 
-  private currentUser: any = null;
+  constructor() {}
 
   setUser(user: any) {
-    this.currentUser = user;
+    localStorage.setItem(this.userKey, JSON.stringify(user));
   }
 
-  getUser() {
-    return this.currentUser;
+  getUser(): any {
+    const user = localStorage.getItem(this.userKey);
+    return user ? JSON.parse(user) : null;
   }
 
   isLoggedIn(): boolean {
-    return this.currentUser !== null;
+    return !!localStorage.getItem(this.userKey);
   }
 
   logout() {
-    this.currentUser = null;
+    localStorage.removeItem(this.userKey);
   }
 }
+

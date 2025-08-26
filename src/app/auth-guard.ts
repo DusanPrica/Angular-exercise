@@ -13,11 +13,9 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.currentUserService.isLoggedIn()) {
-      return true;
+      return true; 
     } else {
-      this.router.navigate(['/error'], { 
-        queryParams: { message: 'Unauthorized! Please login first.' }
-      });
+      this.router.navigate(['/home']);
       return false;
     }
   }

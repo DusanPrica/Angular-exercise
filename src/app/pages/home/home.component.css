@@ -84,16 +84,11 @@ tr:nth-child(even) {
     cursor: pointer;
   }
   
-  .title_hover:hover {
+.title_hover:hover {
     color: #3498db;
     text-decoration: underline;
-  }
-  
-.pagination {
-    text-align: center;
-    margin-top: 20px;
 }
-  
+
 button {
     padding: 8px 15px;
     margin: 0 5px;
@@ -363,6 +358,81 @@ select {
     cursor: pointer;
     color: #333;
 }
+
+.pagination {
+    position: relative;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-top: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+  
+.left_pagination_container {
+    position: absolute;
+    left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+  
+.button_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+  
+.right_pagination_container {
+    position: absolute;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+  
+.button_pagination button,
+.right_pagination_buttons {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+  
+.button_pagination button:hover:not(:disabled),
+.right_pagination_buttons:hover:not(:disabled) {
+    background-color: #b1c6ff;
+}
+  
+.button_pagination button:disabled,
+.right_pagination_buttons:disabled {
+    background-color: #ccc;
+    cursor: default;
+}
+  
+.right_pagination_buttons {
+    background-color: white;
+    color: black;
+    border: 0.1px solid #000;
+}
+  
+@media (max-width: 1024px) {
+    .pagination {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .button-pagination {
+      width: 100%;
+      justify-content: center;
+    }
+  }
   
 
 @keyframes spin {

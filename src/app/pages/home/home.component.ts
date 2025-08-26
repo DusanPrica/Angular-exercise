@@ -1,9 +1,10 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CurrentUserService } from '../../services/current-user.service';
+import { MatPaginatorModule, MatPaginator, PageEvent } from '@angular/material/paginator';
 
 interface Post {
   id: number;
@@ -15,21 +16,25 @@ interface Post {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, MatPaginatorModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   loading: boolean = false;
   posts: any[] = [];
   page: number = 0;
   limit: number = 10;
+  totalPosts: number = 0;
+
+  maxVisiblePages = 5;
+  allPages = 26;
 
   tags: string[] = ['history', 'american', 'crime', 'magical', 'french'];
   selectedTag: string = '';
   selectedPost: Post | null = null;
-
-  //@Input() value : string = '';
 
   dropdownPostId: number | null = null;
   dropdownPosition = { x: 0, y: 0 };
@@ -47,10 +52,14 @@ export class HomeComponent implements OnInit {
     this.loadPosts();
 
     if (!this.currentUserService.isLoggedIn()) { 
-      this.router.navigate (['/login']);
+      this.router.navigate(['/login']);
     } else {
       this.currentUser = this.currentUserService.getUser();
     }
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalPosts / this.limit);
   }
 
   logout() {
@@ -61,9 +70,10 @@ export class HomeComponent implements OnInit {
   loadPosts() {
     this.loading = true;
     const skip = this.page * this.limit;
-    this.http.get<any>(`https://dummyjson.com/posts/search?limit=${this.limit}&skip=${skip}`)
+    this.http.get<any>(`https://dummyjson.com/posts?limit=${this.limit}&skip=${skip}`)
       .subscribe((res: any) => {
         this.posts = res.posts;
+        this.totalPosts = res.total;
         this.loading = false;
       }, err => {
         console.error(err);
@@ -72,17 +82,28 @@ export class HomeComponent implements OnInit {
   }
 
   nextPage() {
-    this.page++;
-    this.loading = true;
-    this.loadPosts();
+    if (this.page < this.totalPages - 1) {
+      this.page++;
+      this.loadPosts();
+    }
   }
 
   prevPage() {
     if (this.page > 0) {
       this.page--;
-      this.loading = true;
       this.loadPosts();
     }
+  }
+
+  goToPage(page: number) {
+    this.page = page - 1; 
+    this.loadPosts();
+  }
+
+  onPageChange(event: PageEvent) {
+    this.page = event.pageIndex;
+    this.limit = event.pageSize;
+    this.loadPosts();
   }
 
   isRed(post: Post) {
@@ -111,6 +132,34 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  get visiblePages(): number[] {
+    const pages: number[] = [];
+    const total = this.totalPages; 
+    const max = Math.max(1, this.maxVisiblePages); 
+  
+    if (total === 0) return pages;
+    if (total <= max) {
+      for (let i = 1; i <= total; i++) pages.push(i);
+      return pages;
+    }
+  
+    const half = Math.floor(max / 2);
+    let start = (this.page + 1) - half;
+    let end = start + max - 1;
+  
+    if (start < 1) {
+      start = 1;
+      end = Math.min(total, max);
+    }
+    if (end > total) {
+      end = total;
+      start = Math.max(1, end - max + 1);
+    }
+  
+    for (let i = start; i <= end; i++) pages.push(i);
+    return pages;
+  }
+  
   @HostListener('document:click')
   onDocumentClick() {
     this.dropdownPostId = null; 
@@ -133,7 +182,6 @@ export class HomeComponent implements OnInit {
   closeDialog() {
     this.showPreviewDialog = false;
     this.selectedPost = null;
-    this.loadPosts();
   }
 
   saveDialog() {

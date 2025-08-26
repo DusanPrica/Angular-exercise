@@ -63,18 +63,39 @@
   </tbody>
 </table>
 
-<!--<div *ngIf="selectedPost" class="post_detail">
-  <h3>Post Details</h3>
-  <p><strong>ID:</strong> {{ selectedPost.id }}</p>
-  <p><strong>Title:</strong> {{ selectedPost.title }}</p>
-  <p><strong>Body:</strong> {{ selectedPost.body }}</p>
-  <p><strong>Tags:</strong> {{ selectedPost.tags?.join(', ') }}</p>
-</div>-->
-
 <div class="pagination">
-  <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
-  <span>Page {{ page + 1 }}</span>
-  <button (click)="nextPage()">Next</button>
+
+  <div class="left_pagination_container">
+    <mat-paginator
+    [length]="260"
+    [pageIndex]="page"
+    [showFirstLastButtons]="true"
+    [pageSize]="limit"
+    [pageSizeOptions]="[5, 10, 20, 50, 100]"
+    (page)="onPageChange($event)"
+    aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <div class="button_pagination">
+    <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
+      <span> Page {{ page + 1 }}</span>
+    <button (click)="nextPage()">Next</button>
+  </div>
+
+  <div class="right_pagination_container">
+    <button (click)="prevPage()" [disabled]="page === 0">«</button>
+  
+    <button class="right_pagination_buttons"
+      *ngFor="let p of visiblePages" 
+      (click)="goToPage(p)" 
+      [class.active]="p === page + 1">
+      {{ p }}
+    </button>
+  
+    <button (click)="nextPage()" [disabled]="page === totalPages - 1">»</button>
+  </div>
+  
 </div>
 
 <div *ngIf="showPreviewDialog" class="modal_overlay">
