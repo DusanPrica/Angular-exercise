@@ -7,7 +7,7 @@ import { CurrentUserService } from '../../services/current-user.service';
 import { MatPaginatorModule, MatPaginator, PageEvent } from '@angular/material/paginator';
 
 interface Post {
-  id: number;
+  id: number | null;
   title: string;
   body: string;
   tags?: string[];
@@ -30,11 +30,11 @@ export class HomeComponent implements OnInit {
   totalPosts: number = 0;
 
   maxVisiblePages = 5;
-  allPages = 26;
 
   tags: string[] = ['history', 'american', 'crime', 'magical', 'french'];
   selectedTag: string = '';
   selectedPost: Post | null = null;
+  previewedPost: Post | null = null;
 
   dropdownPostId: number | null = null;
   dropdownPosition = { x: 0, y: 0 };
@@ -170,8 +170,9 @@ export class HomeComponent implements OnInit {
   }
 
   deletePost(post: Post) {
-    this.posts = this.posts.filter(p => p.id !== post.id);
-    console.log('Post deleted locally:', post);
+    post.title = '';
+    post.body = '';
+    post.tags = [];
   }
 
   previewDialog(post: Post) {
@@ -190,6 +191,9 @@ export class HomeComponent implements OnInit {
   }
 
   previewPage(post: Post) {
-    console.log('Preview in page', post);
+    this.router.navigate(['/posts-row'], { queryParams: { postId: post.id, isEditMode: false } });  }
+
+  closePreview() {
+    this.previewedPost = null;
   }
 }

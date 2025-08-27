@@ -1,14 +1,13 @@
 .input_container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 input {
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 input.invalid {
@@ -17,6 +16,6 @@ input.invalid {
 
 .error_message {
   color: red;
-  font-size: 0.8rem;
-  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  margin-top: 4px;
 }

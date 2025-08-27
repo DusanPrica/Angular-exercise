@@ -13,12 +13,12 @@ export class CustomTextInputComponent {
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
 
-  @Input() model: any;
-  @Output() modelChange: EventEmitter<any> = new EventEmitter<any>();
+  @Input() model: string = '';
+  @Output() modelChange: EventEmitter<any> = new EventEmitter<string>();
 
   @Input() required: boolean = false;
 
-  onInputChange(value: any) {
+  onInputChange(value: string) {
     this.model = value;
     this.modelChange.emit(value);
   }

@@ -421,7 +421,7 @@ select {
     color: black;
     border: 0.1px solid #000;
 }
-  
+
 @media (max-width: 1024px) {
     .pagination {
       flex-direction: column;

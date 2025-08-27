@@ -15,16 +15,19 @@ export class PostsRowComponent implements OnInit {
   postId: number = 0;
   post: any = null;
   loading: boolean = false;
+  isEditMode: boolean = false;
 
   constructor(
-    private route: ActivatedRoute, 
-    private router: Router, 
+    private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient
   ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.postId = +params['postId'] || 0;
+      this.isEditMode = params['isEditMode'] === 'true';
+
       if (this.postId) {
         this.loadPost();
       }
@@ -46,13 +49,11 @@ export class PostsRowComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/home']);
+    window.history.back();
   }
 
   savePost() {
-    // Ovde ide logika za čuvanje izmena
     console.log('Saved post:', this.post);
     this.goBack();
   }
 }
-

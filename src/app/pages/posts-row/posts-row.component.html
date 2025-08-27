@@ -1,17 +1,30 @@
 <div class="posts_container">
-    <h2>Edit Post #{{ postId }}</h2>
+  <h2>Post #{{ postId }}</h2>
   
-    <div *ngIf="post">
+  <div *ngIf="post">
+
+    <div *ngIf="!isEditMode" class="read_mode">
+      <label class="read_label">Title:</label>
+      <h3 class="post_title">{{ post.title }}</h3>
+
+      <label class="read_label">Body:</label>
+      <p class="post_body">{{ post.body }}</p>
+
+      <button class="backBtn" (click)="goBack()">Back</button>
+    </div>
+
+    <div *ngIf="isEditMode">
       <label>Title:</label>
       <input [(ngModel)]="post.title" />
-  
+
       <label>Body:</label>
       <textarea [(ngModel)]="post.body"></textarea>
-  
+
       <div class="buttons">
-        <button class="save-btn" (click)="savePost()">Save</button>
-        <button class="cancel-btn" (click)="goBack()">Cancel</button>
+        <button class="save_btn" (click)="savePost()">Save</button>
+        <button class="cancel_btn" (click)="goBack()">Cancel</button>
       </div>
     </div>
+
   </div>
-  
+</div>
