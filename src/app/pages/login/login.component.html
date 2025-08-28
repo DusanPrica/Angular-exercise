@@ -1,21 +1,24 @@
 <div class="login_container">
-    <h2>Login</h2>
+  <h2>Login</h2>
+
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+    <app-custom-text-input
+      placeholder="Username"
+      [(model)]="username"
+      [required]="true">
+    </app-custom-text-input>
   
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-       <app-custom-text-input
-         placeholder="Username"
-         [(model)]="username"
-         [required]="true">
-       </app-custom-text-input>
-     
-       <app-custom-text-input
-         placeholder="Password"
-         [(model)]="password"
-         [type]="'password'"
-         [required]="true">
-       </app-custom-text-input>
-     
-       <button type="submit">Login</button>
-     </form>
-  </div> 
+    <app-custom-text-input
+      placeholder="Password"
+      [(model)]="password"
+      [type]="'password'"
+      [required]="true">
+    </app-custom-text-input>
+
+    <div class="signup_link">
+      <a (click)="goToRegister()"> Don't have an account? </a>
+    </div>
   
+    <button type="submit">Login</button>
+  </form>
+</div>

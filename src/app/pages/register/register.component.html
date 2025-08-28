@@ -1,0 +1,28 @@
+<div class="registration_container">
+    <h2> Register </h2>
+  
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+      <input
+        placeholder="Username"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+  
+      <input
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        required
+      />
+  
+      <label> Role: </label>
+      <select [(ngModel)]="role" name="role" required>
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
+      </select>
+  
+      <button type="submit">Register</button>
+    </form>
+  </div>

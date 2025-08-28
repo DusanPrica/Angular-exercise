@@ -5,6 +5,7 @@ import { EditPostComponent } from './pages/edit-post/edit-post.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AuthGuard } from './auth-guard';
 import { PreviewPostComponent } from './pages/preview-post/preview-post.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,6 +19,6 @@ export const routes: Routes = [
   { path: 'edit-post/:id', component: EditPostComponent, canActivate: [AuthGuard] },
   { path: 'preview-post/:id', component: PreviewPostComponent },
   { path: 'error', component: ErrorComponent },
+  { path: 'register', component: RegisterComponent }, 
   { path: '**', component: ErrorComponent, data: { message: '404 Not Found' } } 
 ];
-

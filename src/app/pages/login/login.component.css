@@ -54,6 +54,21 @@
     border-radius: 5px;
 }
 
+.signup_link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signup_link a {
+  text-decoration: none;
+  color: #3399ff;
+}
+
+.signup_link a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media (max-width: 767px) {
     .login_container {
       width: 90%;

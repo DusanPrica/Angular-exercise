@@ -25,4 +25,3 @@ export class CurrentUserService {
     localStorage.removeItem(this.userKey);
   }
 }
-
