@@ -44,18 +44,27 @@ export class RegisterComponent implements OnInit {
       return;
     }
   
-    const user = this.users.find(
-      u =>
-        u.username.toLowerCase() === this.username.trim().toLowerCase() &&
-        u.password.toLowerCase() === this.password.trim().toLowerCase()
+    const existingUser = this.users.find(
+      u => u.username.toLowerCase() === this.username.trim().toLowerCase()
     );
   
-    if (user) {
-      this.toastr.success('User exists! Redirecting to home...');
-      this.currentUserService.setUser(user);
-      this.router.navigate(['/home']);
-    } else {
-      this.toastr.error('User not found in database.json');
+    if (existingUser) {
+      this.toastr.error('Username already exists!');
+      return;
     }
+  
+    const newUser: User = {
+      username: this.username.trim(),
+      password: this.password.trim(),
+      role: this.role
+    };
+  
+    this.users.push(newUser);
+  
+    this.currentUserService.setUser(newUser);
+  
+    this.toastr.success('Registration successful!');
+    this.router.navigate(['/home']);
   }
+  
 }
