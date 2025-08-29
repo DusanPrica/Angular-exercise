@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   page: number = 0;
   limit: number = 10;
   totalPosts: number = 0;
-
   maxVisiblePages = 5;
 
   tags: string[] = ['history', 'american', 'crime', 'magical', 'french'];
@@ -41,6 +40,8 @@ export class HomeComponent implements OnInit {
   showPreviewDialog: boolean = false;
 
   currentUser: any;
+
+  availableOptions: string[] = [];
 
   constructor(
     private http: HttpClient, 
@@ -55,6 +56,12 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/login']);
     } else {
       this.currentUser = this.currentUserService.getUser();
+
+      if (this.currentUser.role === 'User') {
+        this.availableOptions = ['Preview in Dialog', 'Preview in Page'];
+      } else if (this.currentUser.role === 'Admin') {
+        this.availableOptions = ['Edit', 'Delete', 'Preview in Dialog', 'Preview in Page'];
+      }
     }
   }
 
@@ -191,9 +198,28 @@ export class HomeComponent implements OnInit {
   }
 
   previewPage(post: Post) {
-    this.router.navigate(['/posts-row'], { queryParams: { postId: post.id, isEditMode: false } });  }
+    this.router.navigate(['/posts-row'], { queryParams: { postId: post.id, isEditMode: false } });  
+  }
 
   closePreview() {
     this.previewedPost = null;
+  }
+
+  handleDropdownAction(option: string, post: Post) {
+    switch(option) {
+      case 'Edit':
+        this.editPost(post);
+        break;
+      case 'Delete':
+        this.deletePost(post);
+        break;
+      case 'Preview in Dialog':
+        this.previewDialog(post);
+        break;
+      case 'Preview in Page':
+        this.previewPage(post);
+        break;
+    }
+    this.dropdownPostId = null;
   }
 }

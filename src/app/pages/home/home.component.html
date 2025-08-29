@@ -50,10 +50,12 @@
                class="dropdown_menu"
                [style.top.px]="dropdownPosition.y + 10"
                [style.left.px]="dropdownPosition.x">
-            <div class="dropdown_item" (click)="editPost(post)">Edit</div>
-            <div class="dropdown_item" (click)="deletePost(post)">Delete</div>
-            <div class="dropdown_item" (click)="previewDialog(post)">Preview in dialog</div>
-            <div class="dropdown_item" (click)="previewPage(post)">Preview in page</div>
+
+            <div *ngFor="let opt of availableOptions" class="dropdown_item" 
+                 (click)="handleDropdownAction(opt, post)">
+              {{ opt }}
+            </div>
+
           </div>
         </td>
         <td>{{ truncate(post.body, 50) }}</td>
@@ -67,13 +69,13 @@
 
   <div class="left_pagination_container">
     <mat-paginator
-    [length]="totalPosts"
-    [pageIndex]="page"
-    [showFirstLastButtons]="true"
-    [pageSize]="limit"
-    [pageSizeOptions]="[5, 10, 20, 50, 100]"
-    (page)="onPageChange($event)"
-    aria-label="Select page">
+      [length]="totalPosts"
+      [pageIndex]="page"
+      [showFirstLastButtons]="true"
+      [pageSize]="limit"
+      [pageSizeOptions]="[5, 10, 20, 50, 100]"
+      (page)="onPageChange($event)"
+      aria-label="Select page">
     </mat-paginator>
   </div>
 
